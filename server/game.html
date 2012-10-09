@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>My Site's Title</title>
+        <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <link rel="stylesheet" href="/public/themes/base/jquery-ui.css" />
+        <script src="/public/Scripts/jquery-1.4.4.js"></script>
+        <script src="/public/Scripts/jquery-ui-1.8.24.js"></script>
+        <script src="/public/Scripts/knockout-2.1.0.debug.js"></script>
+
+        <script src="/public/ViewModel/BoardVM.js"></script>
+    </head>
+    <body>
+         <div id="board">
+            <table>
+                <caption>Board</caption>
+            <tbody data-bind="foreach: rows">
+                <tr data-bind="foreach: $data">
+                    <td class="letterBox"><input type="text" data-bind="value:letter"  style="border: 1px black solid; width: 25px;height: 25px; text-align: center;" /></td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+
+        <fieldset>
+            Row: <input id="row" type="text" /> <br/>
+            Column: <input id="column" type="text"/> <br/>
+            Letter: <input type="button" id="addLetter"/> <br/>
+        </fieldset>
+
+        Letter: <input type="button" id="checkWords" value="Check words"/> <br/>       
+        <span data-bind='visible:isValid'>Error</span>
+    </body>
+</html>
+
+<script type="text/javascript">
+    var board = new BoardVM();
+    board.initialize();
+    ko.applyBindings(board);
+
+    $('#addLetter').click(function () {
+        var row = $('#row').val();
+        var column = $('#column').val();
+        board.rows()[row]()[column].letter('s');
+    });
+
+    $('#checkWords').click(function () {
+        board.isValid();
+    });
+</script>
